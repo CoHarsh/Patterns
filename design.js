@@ -7,7 +7,7 @@ canvas.height = window.innerHeight;
 // console.log(canvas.height,canvas.width);
 
 const maxlevel = 5;
-const branches = 1;
+const branches = 2;
 
 ctx.translate(canvas.width/2 , canvas.height/2);
 
@@ -45,10 +45,10 @@ function drawline(level){
     }
 }
     
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 24; i++) {
    
     drawline(0);
-        ctx.rotate(Math.PI*2/5);
+        ctx.rotate(Math.PI*2/24);
   
     
 }
