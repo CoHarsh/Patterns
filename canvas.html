@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            #canvas1 {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: black;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="canvas1"></canvas>
+    </body>
+    <script>
+        const canvas = document.getElementById('canvas1');
+        const ctx = canvas.getContext('2d');
+        let i = 0;
+        setInterval(() => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            //sorted
+            console.log(canvas.height, canvas.width);
+
+            const maxlevel = 5;
+            const branches = 2;
+
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+            let degree = (Math.PI * i) / 180;
+            ctx.rotate(degree);
+            i += 50;
+            if (i > 359) i = 1;
+
+            const angle = Math.PI * 2 * 0.85;
+
+            function drawline(level) {
+                if (level > maxlevel) return;
+                let colorf = 'green';
+                ctx.strokeStyle = 'white'; //color = white
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(200, 0);
+                ctx.stroke();
+                //draw a line with 200px long
+
+                for (let i = 1; i < branches + 1; i++) {
+                    ctx.save(); //save the work into stack
+                    ctx.translate((200 * i) / (branches + 1), 0);
+                    ctx.scale(0.5, 0.5);
+                    ctx.save();
+
+                    ctx.rotate(angle);
+                    drawline(level + 1);
+                    ctx.restore();
+                    ctx.save();
+
+                    ctx.rotate(-angle);
+                    drawline(level + 1);
+                    ctx.restore();
+
+                    ctx.restore();
+                }
+            }
+
+            for (let i = 0; i < 24; i++) {
+                drawline(0);
+                ctx.rotate((Math.PI * 2) / 24);
+            }
+            ctx.resetTransform();
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+        }, 1);
+    </script>
+</html>
